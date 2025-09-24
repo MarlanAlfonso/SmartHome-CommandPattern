@@ -9,3 +9,38 @@ Design a system that allows you to control multiple smart home devices with ease
 
 Below is the UML Class Diagram for this project:
 ![UML Diagram](UML_ClassDiagram.png)
+
+# Components 
+- **Main (Client):**  
+  Acts as the application entry point. It creates the devices (Light, Thermostat, MusicPlayer), wraps them in Command objects, and assigns those commands to the RemoteControl.  
+  It simulates user interactions by calling methods on the RemoteControl.
+
+- **RemoteControl (Invoker):**  
+  The invoker that stores and executes commands.  
+  - `setCommand(String name, Command cmd)`: assigns a command to a slot.  
+  - `press(String name)`: executes the assigned command.  
+  - `undo()`: undoes the last executed command.  
+
+- **Command (Interface):**  
+  Declares two methods:  
+  - `execute()`: performs the action.  
+  - `undo()`: reverses the action.  
+  This ensures all concrete commands share a common contract.
+
+- **Concrete Commands:**  
+  Each represents a specific action on a device (Receiver). Examples:  
+  - `LightOnCommand` → calls `on()` on a Light.  
+  - `LightOffCommand` → calls `off()` on a Light.  
+  - `SetBrightnessCommand` → calls `setBrightness(level)` on a Light.  
+  - `ThermostatIncreaseTempCommand` → calls `increase()` on a Thermostat.  
+  - `ThermostatDecreaseTempCommand` → calls `decrease()` on a Thermostat.  
+  - `MusicPlayCommand` → calls `play(playlist)` on a MusicPlayer.  
+  - `MusicStopCommand` → calls `stop()` on a MusicPlayer.  
+  - `VolumeUpCommand` → calls `volumeUp()` on a MusicPlayer.  
+  - `VolumeDownCommand` → calls `volumeDown()` on a MusicPlayer.  
+
+- **Receivers (Devices):**  
+  These contain the actual logic of what happens in the system.  
+  - **Light** → methods: `on()`, `off()`, `setBrightness(int level)`.  
+  - **Thermostat** → methods: `increase()`, `decrease()`.  
+  - **MusicPlayer** → methods: `play(String playlist)`, `stop()`, `volumeUp()`, `volumeDown()`.  
